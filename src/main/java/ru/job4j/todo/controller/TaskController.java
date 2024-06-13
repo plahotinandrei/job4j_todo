@@ -92,8 +92,9 @@ public class TaskController {
             model.addAttribute("message", "Задание с указанным идентификатором не найдено");
             return "errors/404";
         }
-        model.addAttribute("task", taskOptional.get());
-        return "tasks/one";
+        TaskDetails task = taskOptional.get();
+        model.addAttribute("task", task);
+        return String.format("redirect:/tasks/%d", task.getId());
     }
 
     @GetMapping("/delete/{id}")
