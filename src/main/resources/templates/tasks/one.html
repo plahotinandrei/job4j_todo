@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <title>Редактирование задания</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-inverse navbar-static-top navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand m-auto" href="/">Job4jToDo</a>
+        </div>
+    </nav>
+    <div class="container my-4">
+        <h1 class="h2 mb-4" th:text="${task.title}"></h1>
+        <p class="text-body" th:text="${task.description}"></p>
+        <p class="text-body">Создано: <span th:text="${task.created}"></span></p>
+        <p class="text-body">
+            Статус:
+            <span class="text-success" th:if="${task.done}">выполнено</span>
+            <span th:unless="${task.done}">не выполнено</span>
+        </p>
+        <div class="d-flex">
+            <a
+                    class="btn btn-success mr-3"
+                    th:href="@{/done/{taskId}(taskId=${task.id})}"
+                    th:classappend="${task.done ? 'disabled' : ''}"
+            >
+                Выполнено
+            </a>
+            <a class="btn btn-primary mr-3" th:href="@{/update/{taskId}(taskId=${task.id})}">Редактировать</a>
+            <a class="btn btn-danger" th:href="@{/delete/{taskId}(taskId=${task.id})}">Удалить</a>
+        </div>
+    </div>
+</body>
+</html>

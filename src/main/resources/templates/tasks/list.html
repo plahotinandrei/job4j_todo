@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <title>Список задач</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-inverse navbar-static-top navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand m-auto" href="/">Job4jToDo</a>
+        </div>
+    </nav>
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                        <a
+                                class="nav-link"
+                                th:classappend="${#strings.equals(#httpServletRequest.getRequestURI(), '/') ? 'active' : ''}"
+                                th:href="@{/}"
+                        >
+                            Все
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                                class="nav-link"
+                                th:classappend="${#strings.equals(#httpServletRequest.getRequestURI(), '/done') ? 'active' : ''}"
+                                th:href="@{/done}"
+                        >
+                            Выполненные
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                                class="nav-link"
+                                th:classappend="${#strings.equals(#httpServletRequest.getRequestURI(), '/new') ? 'active' : ''}"
+                                th:href="@{/new}"
+                        >
+                            Новые
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12">
+                <p class="text-body text-center my-4" th:if="${#lists.isEmpty(tasks)}">Список задач пока пуст!</p>
+                <table class="table my-4" th:unless="${#lists.isEmpty(tasks)}">
+                    <thead>
+                    <tr>
+                        <th scope="col">Заголовок</th>
+                        <th scope="col">Создано</th>
+                        <th class="text-center" scope="col">Выполнено</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr
+                            th:each="task: ${tasks}"
+                            th:classappend="${task.done ? 'table-success' : ''}"
+                    >
+                        <td><a th:text="${task.title}" th:href="@{/tasks/{taskId}(taskId=${task.id})}"></a></td>
+                        <td th:text="${task.created}"/>
+                        <td class="text-center" th:if="${task.done}">+</td>
+                        <td class="text-center" th:unless="${task.done}">-</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a class="btn btn-primary" type="button" th:href="@{/create}">Добавить задание</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
