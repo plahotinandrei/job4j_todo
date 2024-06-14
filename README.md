@@ -55,6 +55,14 @@ Java 17, Maven 3.8, PostgreSQL 14, браузер.
 
 ![update.jpg](img/update.jpg)
 
+7. Страница регистрации.
+
+![register.jpg](img/register.jpg)
+
+8. Страница входа.
+
+![login.jpg](img/login.jpg)
+
 
 
 ***

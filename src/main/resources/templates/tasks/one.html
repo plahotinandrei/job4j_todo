@@ -9,11 +9,7 @@
     <title>Редактирование задания</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-inverse navbar-static-top navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand m-auto" href="/">Job4jToDo</a>
-        </div>
-    </nav>
+    <header th:insert="blocks/header :: header"></header>
     <div class="container my-4">
         <h1 class="h2 mb-4" th:text="${task.title}"></h1>
         <p class="text-body" th:text="${task.description}"></p>
