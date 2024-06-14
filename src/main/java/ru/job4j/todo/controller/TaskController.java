@@ -7,13 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.dto.TaskDetails;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.service.TaskService;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/tasks")
 @RequiredArgsConstructor
 public class TaskController {
 
@@ -44,7 +41,6 @@ public class TaskController {
 
     @PostMapping("/create")
     public String create(@ModelAttribute Task task, Model model) {
-        task.setCreated(Timestamp.valueOf(LocalDateTime.now()));
         Optional<Task> taskOptional = taskService.create(task);
         if (taskOptional.isEmpty()) {
             model.addAttribute("message", "При создании задания произошла ошибка");
@@ -53,7 +49,7 @@ public class TaskController {
         return "redirect:/";
     }
 
-    @GetMapping("/tasks/{id}")
+    @GetMapping("/{id}")
     public String getById(Model model, @PathVariable int id) {
         Optional<TaskDetails> taskOptional = taskService.findById(id);
         if (taskOptional.isEmpty()) {

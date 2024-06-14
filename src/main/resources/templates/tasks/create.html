@@ -15,7 +15,7 @@
         </div>
     </nav>
     <div class="container my-4">
-        <form th:action="@{/create}" method="post">
+        <form th:action="@{/tasks/create}" method="post">
             <div class="mb-3">
                 <label for="title" class="form-label"><b>Заголовок</b></label>
                 <input type="text" class="form-control" id="title" name="title" placeholder="Введите краткое описание задания">
@@ -25,7 +25,7 @@
                 <textarea class="form-control" id="description" name="description" placeholder="Введите подробное описание задания" rows="5"></textarea>
             </div>
             <div class="d-flex">
-                <a class="btn btn-danger mr-3" href="/">Отмена</a>
+                <a class="btn btn-danger mr-3" href="/tasks">Отмена</a>
                 <button class="btn btn-success" type="submit">Добавить</button>
             </div>
         </form>

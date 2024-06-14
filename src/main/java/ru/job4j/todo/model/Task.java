@@ -2,7 +2,7 @@ package ru.job4j.todo.model;
 
 import lombok.*;
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,7 +23,7 @@ public class Task {
 
     private String description;
 
-    private Timestamp created;
+    private LocalDateTime created = LocalDateTime.now();
 
     private boolean done;
 }

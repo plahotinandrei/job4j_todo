@@ -21,8 +21,8 @@
                     <li class="nav-item">
                         <a
                                 class="nav-link"
-                                th:classappend="${#strings.equals(#httpServletRequest.getRequestURI(), '/') ? 'active' : ''}"
-                                th:href="@{/}"
+                                th:classappend="${#strings.equals(#httpServletRequest.getRequestURI(), '/tasks') or #strings.equals(#httpServletRequest.getRequestURI(), '/') ? 'active' : ''}"
+                                th:href="@{/tasks}"
                         >
                             Все
                         </a>
@@ -30,8 +30,8 @@
                     <li class="nav-item">
                         <a
                                 class="nav-link"
-                                th:classappend="${#strings.equals(#httpServletRequest.getRequestURI(), '/done') ? 'active' : ''}"
-                                th:href="@{/done}"
+                                th:classappend="${#strings.equals(#httpServletRequest.getRequestURI(), '/tasks/done') ? 'active' : ''}"
+                                th:href="@{/tasks/done}"
                         >
                             Выполненные
                         </a>
@@ -39,8 +39,8 @@
                     <li class="nav-item">
                         <a
                                 class="nav-link"
-                                th:classappend="${#strings.equals(#httpServletRequest.getRequestURI(), '/new') ? 'active' : ''}"
-                                th:href="@{/new}"
+                                th:classappend="${#strings.equals(#httpServletRequest.getRequestURI(), '/tasks/new') ? 'active' : ''}"
+                                th:href="@{/tasks/new}"
                         >
                             Новые
                         </a>
@@ -73,7 +73,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-primary" type="button" th:href="@{/create}">Добавить задание</a>
+                <a class="btn btn-primary" type="button" th:href="@{/tasks/create}">Добавить задание</a>
             </div>
         </div>
     </div>
