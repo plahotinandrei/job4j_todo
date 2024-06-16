@@ -1,6 +1,8 @@
 package ru.job4j.todo.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
 import java.util.List;
@@ -13,14 +15,16 @@ public class HbmTaskRepository implements TaskRepository {
 
     private final CrudRepository crudRepository;
 
+    private final static Logger LOG = LoggerFactory.getLogger(HbmTaskRepository.class.getName());
+
     @Override
     public Optional<Task> create(Task task) {
         Optional<Task> taskOptional = Optional.empty();
         try {
             crudRepository.run(session -> session.persist(task));
             taskOptional = Optional.of(task);
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            LOG.error("Failed to create task", e);
         }
         return taskOptional;
     }

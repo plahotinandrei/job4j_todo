@@ -1,6 +1,8 @@
 package ru.job4j.todo.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.User;
 import java.util.Map;
@@ -12,14 +14,16 @@ public class HbmUserRepository implements UserRepository {
 
     private final CrudRepository crudRepository;
 
+    private final static Logger LOG = LoggerFactory.getLogger(HbmUserRepository.class.getName());
+
     @Override
     public Optional<User> save(User user) {
         Optional<User> userOptional = Optional.empty();
         try {
             crudRepository.run(session -> session.persist(user));
             userOptional = Optional.of(user);
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            LOG.error("Failed to create user", e);
         }
         return userOptional;
     }
