@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.dto.TaskDetails;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.TaskService;
 import java.util.Optional;
 
@@ -40,8 +41,12 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model) {
-        Optional<Task> taskOptional = taskService.create(task);
+    public String create(@ModelAttribute Task task, Model model, @SessionAttribute User user) {
+        Optional<Task> taskOptional = Optional.empty();
+        if (user != null) {
+            task.setUser(user);
+            taskOptional = taskService.create(task);
+        }
         if (taskOptional.isEmpty()) {
             model.addAttribute("message", "При создании задания произошла ошибка");
             return "errors/409";

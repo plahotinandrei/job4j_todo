@@ -13,6 +13,7 @@
     <div class="container my-4">
         <h1 class="h2 mb-4" th:text="${task.title}"></h1>
         <p class="text-body" th:text="${task.description}"></p>
+        <p class="text-body">Автор: <span th:text="${task.author}"></span></p>
         <p class="text-body">Создано: <span th:text="${task.created}"></span></p>
         <p class="text-body">
             Статус:

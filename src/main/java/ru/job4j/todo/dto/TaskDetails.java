@@ -17,5 +17,7 @@ public class TaskDetails {
 
     private String created;
 
+    private String author;
+
     private boolean done;
 }

@@ -15,5 +15,7 @@ public class TaskPreview {
 
     private String created;
 
+    private String author;
+
     private boolean done;
 }

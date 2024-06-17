@@ -10,8 +10,10 @@ import ru.job4j.todo.model.Task;
 public interface TaskMapper {
 
     @Mapping(source = "task.created", target = "created", dateFormat = "dd.MM.yyyy HH:mm")
+    @Mapping(source = "task.user.name", target = "author")
     TaskPreview getTaskPreview(Task task);
 
     @Mapping(source = "task.created", target = "created", dateFormat = "dd.MM.yyyy HH:mm")
+    @Mapping(source = "task.user.name", target = "author")
     TaskDetails getTaskDetails(Task task);
 }
