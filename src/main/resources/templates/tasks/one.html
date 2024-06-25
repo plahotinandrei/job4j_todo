@@ -15,6 +15,7 @@
         <p class="text-body" th:text="${task.description}"></p>
         <p class="text-body">Автор: <span th:text="${task.author}"></span></p>
         <p class="text-body">Создано: <span th:text="${task.created}"></span></p>
+        <p class="text-body">Приоритет: <span th:text="${task.priority}"></span></p>
         <p class="text-body">
             Статус:
             <span class="text-success" th:if="${task.done}">выполнено</span>

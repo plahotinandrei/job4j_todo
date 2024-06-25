@@ -11,9 +11,11 @@ public interface TaskMapper {
 
     @Mapping(source = "task.created", target = "created", dateFormat = "dd.MM.yyyy HH:mm")
     @Mapping(source = "task.user.name", target = "author")
+    @Mapping(source = "task.priority.name", target = "priority")
     TaskPreview getTaskPreview(Task task);
 
     @Mapping(source = "task.created", target = "created", dateFormat = "dd.MM.yyyy HH:mm")
     @Mapping(source = "task.user.name", target = "author")
+    @Mapping(source = "task.priority.name", target = "priority")
     TaskDetails getTaskDetails(Task task);
 }

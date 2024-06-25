@@ -51,6 +51,7 @@
                         <th scope="col">Заголовок</th>
                         <th scope="col">Создано</th>
                         <th scope="col">Автор</th>
+                        <th scope="col">Приоритет</th>
                         <th class="text-center" scope="col">Выполнено</th>
                     </tr>
                     </thead>
@@ -62,6 +63,7 @@
                         <td><a th:text="${task.title}" th:href="@{/tasks/{taskId}(taskId=${task.id})}"></a></td>
                         <td th:text="${task.created}"/>
                         <td th:text="${task.author}"/>
+                        <td th:text="${task.priority}"/>
                         <td class="text-center" th:if="${task.done}">+</td>
                         <td class="text-center" th:unless="${task.done}">-</td>
                     </tr>

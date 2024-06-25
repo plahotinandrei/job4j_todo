@@ -29,6 +29,16 @@
                         placeholder="Введите подробное описание задания" rows="5"
                 ></textarea>
             </div>
+            <div class="mb-3">
+                <label for="priorityId" class="form-label"><b>Приоритет</b></label>
+                <select class="form-control" id="priorityId" name="priorityId">
+                    <option
+                            th:each="priority : ${priorities}"
+                            th:value="${priority.id}"
+                            th:text="${priority.name}"
+                    ></option>
+                </select>
+            </div>
             <div class="form-check mb-3">
                 <input type="checkbox" name="visible" class="form-check-input" id="visible" th:field="*{done}">
                 <label class="form-check-label" for="visible">Выполнено</label>

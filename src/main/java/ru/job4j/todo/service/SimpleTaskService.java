@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import ru.job4j.todo.dto.TaskDetails;
 import ru.job4j.todo.dto.TaskPreview;
 import ru.job4j.todo.mapper.TaskMapper;
+import ru.job4j.todo.model.Priority;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.repository.PriorityRepository;
 import ru.job4j.todo.repository.TaskRepository;
 import java.util.List;
 import java.util.Optional;
@@ -17,15 +19,21 @@ public class SimpleTaskService implements TaskService {
 
     private final TaskRepository taskRepository;
 
+    private final PriorityRepository priorityRepository;
+
     private final TaskMapper taskMapper = Mappers.getMapper(TaskMapper.class);
 
     @Override
-    public Optional<Task> create(Task task) {
+    public Optional<Task> create(Task task, int priorityId) {
+        Optional<Priority> priority = priorityRepository.findById(priorityId);
+        priority.ifPresent(task::setPriority);
         return taskRepository.create(task);
     }
 
     @Override
-    public boolean update(int id, Task task) {
+    public boolean update(int id, Task task, int priorityId) {
+        Optional<Priority> priority = priorityRepository.findById(priorityId);
+        priority.ifPresent(task::setPriority);
         return taskRepository.update(id, task);
     }
 

@@ -5,9 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.dto.TaskDetails;
+import ru.job4j.todo.model.Priority;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
+
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -16,6 +20,8 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskService taskService;
+
+    private final PriorityService priorityService;
 
     @GetMapping
     public String getAll(Model model) {
@@ -36,16 +42,19 @@ public class TaskController {
     }
 
     @GetMapping("/create")
-    public String getCreationPage() {
+    public String getCreationPage(Model model) {
+        List<Priority> priorities = priorityService.findAll();
+        model.addAttribute("task", new Task());
+        model.addAttribute("priorities", priorities);
         return "tasks/create";
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model, @SessionAttribute User user) {
+    public String create(@ModelAttribute Task task, @RequestParam int priorityId, Model model, @SessionAttribute User user) {
         Optional<Task> taskOptional = Optional.empty();
         if (user != null) {
             task.setUser(user);
-            taskOptional = taskService.create(task);
+            taskOptional = taskService.create(task, priorityId);
         }
         if (taskOptional.isEmpty()) {
             model.addAttribute("message", "При создании задания произошла ошибка");
@@ -72,13 +81,15 @@ public class TaskController {
             model.addAttribute("message", "Задание с указанным идентификатором не найдено");
             return "errors/404";
         }
+        List<Priority> priorities = priorityService.findAll();
         model.addAttribute("task", taskOptional.get());
+        model.addAttribute("priorities", priorities);
         return "tasks/update";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute Task task, Model model) {
-        boolean isUpdated = taskService.update(task.getId(), task);
+    public String update(@ModelAttribute Task task, @RequestParam int priorityId, Model model) {
+        boolean isUpdated = taskService.update(task.getId(), task, priorityId);
         if (!isUpdated) {
             model.addAttribute("message", "При обновлении произошла ошибка");
             return "errors/409";

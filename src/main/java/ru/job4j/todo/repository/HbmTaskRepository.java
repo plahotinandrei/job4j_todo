@@ -32,9 +32,9 @@ public class HbmTaskRepository implements TaskRepository {
     @Override
     public boolean update(int id, Task task) {
         return crudRepository.run(
-                "UPDATE Task SET title = :title, description = :description, done=:done WHERE id = :id",
+                "UPDATE Task SET title = :title, description = :description, done=:done, priority_id=:priorityId WHERE id = :id",
                 Map.of("id", id, "title", task.getTitle(),
-                        "description", task.getDescription(), "done", task.isDone())
+                        "description", task.getDescription(), "done", task.isDone(), "priorityId", task.getPriority().getId())
         );
     }
 
@@ -54,16 +54,22 @@ public class HbmTaskRepository implements TaskRepository {
 
     @Override
     public Optional<Task> findById(int id) {
-        return crudRepository.optional("from Task where id=:id", Task.class, Map.of("id", id));
+        return crudRepository.optional(
+                "from Task f JOIN FETCH f.priority where f.id=:id",
+                Task.class, Map.of("id", id)
+        );
     }
 
     @Override
     public List<Task> findAll() {
-        return crudRepository.query("from Task", Task.class);
+        return crudRepository.query("from Task f JOIN FETCH f.priority", Task.class);
     }
 
     @Override
     public List<Task> findAllByDone(boolean isDone) {
-        return crudRepository.query("from Task where done=:done", Task.class, Map.of("done", isDone));
+        return crudRepository.query(
+                "from Task f JOIN FETCH f.priority where f.done=:done",
+                Task.class, Map.of("done", isDone)
+        );
     }
 }

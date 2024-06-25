@@ -17,5 +17,7 @@ public class TaskPreview {
 
     private String author;
 
+    private String priority;
+
     private boolean done;
 }

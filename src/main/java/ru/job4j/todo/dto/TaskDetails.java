@@ -19,5 +19,7 @@ public class TaskDetails {
 
     private String author;
 
+    private String priority;
+
     private boolean done;
 }
