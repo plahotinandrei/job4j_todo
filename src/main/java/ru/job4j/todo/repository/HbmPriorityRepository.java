@@ -25,6 +25,4 @@ public class HbmPriorityRepository implements PriorityRepository {
                 Priority.class, Map.of("id", id)
         );
     }
-
-
 }
