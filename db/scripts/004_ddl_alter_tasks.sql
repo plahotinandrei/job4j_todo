@@ -1,3 +1,5 @@
+--liquibase formatted sql
+--changeset plahotinandrei:4
 alter table tasks add column user_id int;
 
 alter table tasks

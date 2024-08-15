@@ -1,3 +1,5 @@
+--liquibase formatted sql
+--changeset plahotinandrei:9
 create table tasks_categories(
     id serial primary key,
     task_id int not null REFERENCES tasks(id),
