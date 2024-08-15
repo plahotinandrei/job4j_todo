@@ -30,17 +30,16 @@ public class HbmTaskRepository implements TaskRepository {
     }
 
     @Override
-    public boolean update(int id, Task task) {
-        return crudRepository.run(
-                "UPDATE Task SET title = :title, description = :description, done=:done, priority_id=:priorityId WHERE id = :id",
-                Map.of("id", id, "title", task.getTitle(),
-                        "description", task.getDescription(), "done", task.isDone(), "priorityId", task.getPriority().getId())
-        );
+    public boolean update(Task task) {
+        return crudRepository.execute(session -> session.update(task));
     }
 
     @Override
     public Optional<Task> toDone(int id) {
-        Optional<Task> taskOptional = crudRepository.optional("from Task where id=:id", Task.class, Map.of("id", id));
+        Optional<Task> taskOptional = crudRepository.optional(
+                "from Task f JOIN FETCH f.priority LEFT JOIN FETCH f.categories where f.id=:id",
+                Task.class, Map.of("id", id)
+        );
         if (taskOptional.isPresent()) {
             crudRepository.run("UPDATE Task SET done=true WHERE id = :id", Map.of("id", id));
         }
@@ -49,13 +48,23 @@ public class HbmTaskRepository implements TaskRepository {
 
     @Override
     public boolean delete(int id) {
-        return crudRepository.run("DELETE Task WHERE id = :id", Map.of("id", id));
+        boolean rsl = false;
+        Optional<Task> taskOptional = crudRepository.optional(
+                "from Task f LEFT JOIN FETCH f.categories where f.id=:id",
+                Task.class, Map.of("id", id)
+        );
+        if (taskOptional.isPresent()) {
+            Task task = taskOptional.get();
+            task.getCategories().clear();
+            rsl = crudRepository.execute(session -> session.remove(task));
+        }
+        return rsl;
     }
 
     @Override
     public Optional<Task> findById(int id) {
         return crudRepository.optional(
-                "from Task f JOIN FETCH f.priority where f.id=:id",
+                "from Task f JOIN FETCH f.priority LEFT JOIN FETCH f.categories where f.id=:id",
                 Task.class, Map.of("id", id)
         );
     }

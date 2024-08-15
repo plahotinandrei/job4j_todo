@@ -3,6 +3,8 @@ package ru.job4j.todo.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -19,7 +21,11 @@ public class TaskDetails {
 
     private String author;
 
-    private String priority;
+    private int priorityId;
+
+    private String priorityName;
+
+    private List<String> categoryNames;
 
     private boolean done;
 }

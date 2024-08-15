@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface TaskService {
 
-    Optional<Task> create(Task task, int priorityId);
+    Optional<Task> create(Task task, int priorityId, List<Integer> categoriesId);
 
-    boolean update(int id, Task task, int priorityId);
+    boolean update(Task task, int priorityId, List<Integer> categoriesId);
 
     Optional<TaskDetails> toDone(int id);
 

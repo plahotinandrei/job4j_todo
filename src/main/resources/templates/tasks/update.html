@@ -31,14 +31,28 @@
             </div>
             <div class="mb-3">
                 <label for="priorityId" class="form-label"><b>Приоритет</b></label>
-                <select class="form-control" id="priorityId" name="priorityId">
+                <select class="form-control" id="priorityId" name="priorityId" th:field="*{priorityId}">
                     <option
                             th:each="priority : ${priorities}"
                             th:value="${priority.id}"
                             th:text="${priority.name}"
+                            th:selected="${priority.id == priorityId}"
                     ></option>
                 </select>
             </div>
+
+            <div class="mb-4">
+                <label for="categoriesId" class="form-label"><b>Категории</b></label>
+                <select class="form-control" id="categoriesId" name="categoriesId" multiple>
+                    <option
+                            th:each="category : ${categories}"
+                            th:value="${category.id}"
+                            th:text="${category.name}"
+                            th:selected="${categoryNames.contains(category.name)}"
+                    ></option>
+                </select>
+            </div>
+
             <div class="form-check mb-3">
                 <input type="checkbox" name="visible" class="form-check-input" id="visible" th:field="*{done}">
                 <label class="form-check-label" for="visible">Выполнено</label>

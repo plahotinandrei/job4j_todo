@@ -8,7 +8,7 @@ public interface TaskRepository {
 
     Optional<Task> create(Task task);
 
-    boolean update(int id, Task task);
+    boolean update(Task task);
 
     Optional<Task> toDone(int id);
 
