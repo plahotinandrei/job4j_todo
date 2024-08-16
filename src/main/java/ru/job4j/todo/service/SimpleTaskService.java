@@ -12,9 +12,12 @@ import ru.job4j.todo.model.Task;
 import ru.job4j.todo.repository.CategoryRepository;
 import ru.job4j.todo.repository.PriorityRepository;
 import ru.job4j.todo.repository.TaskRepository;
+
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,21 +53,32 @@ public class SimpleTaskService implements TaskService {
     }
 
     @Override
-    public Optional<TaskDetails> findById(int id) {
-        return taskRepository.findById(id).map(taskMapper::getTaskDetails);
+    public Optional<TaskDetails> findById(int id, TimeZone tz) {
+        return taskRepository.findById(id).stream()
+                .peek(task -> task.setCreated(
+                        task.getCreated().atZone(ZoneId.of("UTC"))
+                                .withZoneSameInstant(tz.toZoneId()).toLocalDateTime())
+                ).map(taskMapper::getTaskDetails)
+                .findFirst();
     }
 
     @Override
-    public List<TaskPreview> findAll() {
+    public List<TaskPreview> findAll(TimeZone tz) {
         return taskRepository.findAll().stream()
-                .map(taskMapper::getTaskPreview)
+                .peek(task -> task.setCreated(
+                        task.getCreated().atZone(ZoneId.of("UTC"))
+                                .withZoneSameInstant(tz.toZoneId()).toLocalDateTime())
+                ).map(taskMapper::getTaskPreview)
                 .toList();
     }
 
     @Override
-    public List<TaskPreview> findAllByDone(boolean isDone) {
+    public List<TaskPreview> findAllByDone(boolean isDone, TimeZone tz) {
         return taskRepository.findAllByDone(isDone).stream()
-                .map(taskMapper::getTaskPreview)
+                .peek(task -> task.setCreated(
+                        task.getCreated().atZone(ZoneId.of("UTC"))
+                                .withZoneSameInstant(tz.toZoneId()).toLocalDateTime())
+                ).map(taskMapper::getTaskPreview)
                 .toList();
     }
 

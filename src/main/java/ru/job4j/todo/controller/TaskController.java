@@ -13,7 +13,9 @@ import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.TimeZone;
 
 @Controller
 @RequestMapping("/tasks")
@@ -27,20 +29,26 @@ public class TaskController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public String getAll(Model model) {
-        model.addAttribute("tasks", taskService.findAll());
+    public String getAll(Model model, @SessionAttribute User user) {
+        TimeZone tz = user.getTimezone();
+        tz = Objects.isNull(tz) ? TimeZone.getDefault() : tz;
+        model.addAttribute("tasks", taskService.findAll(tz));
         return "tasks/list";
     }
 
     @GetMapping("/done")
-    public String getAllDone(Model model) {
-        model.addAttribute("tasks", taskService.findAllByDone(true));
+    public String getAllDone(Model model, @SessionAttribute User user) {
+        TimeZone tz = user.getTimezone();
+        tz = Objects.isNull(tz) ? TimeZone.getDefault() : tz;
+        model.addAttribute("tasks", taskService.findAllByDone(true, tz));
         return "tasks/list";
     }
 
     @GetMapping("/new")
-    public String getAllNew(Model model) {
-        model.addAttribute("tasks", taskService.findAllByDone(false));
+    public String getAllNew(Model model, @SessionAttribute User user) {
+        TimeZone tz = user.getTimezone();
+        tz = Objects.isNull(tz) ? TimeZone.getDefault() : tz;
+        model.addAttribute("tasks", taskService.findAllByDone(false, tz));
         return "tasks/list";
     }
 
@@ -75,8 +83,10 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public String getById(Model model, @PathVariable int id) {
-        Optional<TaskDetails> taskOptional = taskService.findById(id);
+    public String getById(Model model, @PathVariable int id, @SessionAttribute User user) {
+        TimeZone tz = user.getTimezone();
+        tz = Objects.isNull(tz) ? TimeZone.getDefault() : tz;
+        Optional<TaskDetails> taskOptional = taskService.findById(id, tz);
         if (taskOptional.isEmpty()) {
             model.addAttribute("message", "Задание с указанным идентификатором не найдено");
             return "errors/404";
@@ -88,8 +98,10 @@ public class TaskController {
     }
 
     @GetMapping("/update/{id}")
-    public String update(Model model, @PathVariable int id) {
-        Optional<TaskDetails> taskOptional = taskService.findById(id);
+    public String update(Model model, @PathVariable int id, @SessionAttribute User user) {
+        TimeZone tz = user.getTimezone();
+        tz = Objects.isNull(tz) ? TimeZone.getDefault() : tz;
+        Optional<TaskDetails> taskOptional = taskService.findById(id, tz);
         if (taskOptional.isEmpty()) {
             model.addAttribute("message", "Задание с указанным идентификатором не найдено");
             return "errors/404";

@@ -2,6 +2,7 @@ package ru.job4j.todo.model;
 
 import lombok.*;
 import javax.persistence.*;
+import java.util.TimeZone;
 
 @Getter
 @Setter
@@ -23,4 +24,6 @@ public class User {
     private String login;
 
     private String password;
+
+    private TimeZone timezone;
 }
